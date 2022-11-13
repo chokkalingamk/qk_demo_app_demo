@@ -100,18 +100,18 @@ jobs:
       #    with:
       #       kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
-    - uses: Azure/k8s-create-secret@v1
-      with:
-        container-registry-url: contoso.azurecr.io
-        container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
-        container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-        secret-name: qkappdemo-secret
-
     - name: Get K8s context
       uses: azure/aks-set-context@v3
       with:
         resource-group: ${{ env.RESOURCE_GROUP }}
         cluster-name: ${{ env.CLUSTER_NAME }}
+
+    - uses: Azure/k8s-create-secret@v1
+      with:
+        container-registry-url: ${{ env.ACR_REGISTRY_URL }}
+        container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+        container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+        secret-name: qkappdemo-secret
 
     - name: Lint Check
       run: helm lint ./sampleapp
