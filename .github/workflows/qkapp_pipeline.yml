@@ -15,8 +15,8 @@ env:
   RESOURCE_GROUP: App_insights_AKS_ck          # set this to the resource group containing your AKS cluster
   CLUSTER_NAME: appinsightsaks              # set this to the name of your AKS cluster
   REGISTRY_URL: ecrinsights.azurecr.io              # set this to the URL of your registry
-  CHART_PATH: "./chart/sampleapp"
-  CHART_OVERRIDE_PATH: "./chart/sampleapp/values.yml"
+  CHART_PATH: "./charts/sampleapp"
+  CHART_OVERRIDE_PATH: "./charts/sampleapp/values.yml"
 #   # If you bake using helm:
 #   CHART_PATH: MY_HELM_FILE                   # set this to the path to your helm file
 #   CHART_OVERRIDE_PATH: MY_OVERRIDE_FILES     # set this to an array of override file paths
@@ -89,6 +89,15 @@ jobs:
         helm-version: "latest"
       id: bake
 
+
+    # # Deploys application based on manifest files from previous step
+    # - name: Deploy application
+    #   uses: Azure/k8s-deploy@v4
+    #   with:
+    #     action: deploy
+    #     manifests: ${{ steps.bake.outputs.manifestsBundle }}
+    #     images: |
+    #       ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
     # - name: Build and push image to ACR
     #   run: |
     #     az acr build --image ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} .
