@@ -67,9 +67,7 @@ jobs:
       # Builds and pushes an image up to your Azure Container Registry
 
       # Retrieves your Azure Kubernetes Service cluster's kubeconfig file
-  K8s-context:
-    runs-on: ubuntu-latest
-    steps:
+
     - name: Get K8s context
       uses: azure/aks-set-context@v3
       with:
@@ -79,18 +77,16 @@ jobs:
     # - name: Group of log lines
     #   run: |
     #       ll
-  helm_deploy:
-    runs-on: ubuntu-latest
-    steps:
+
       # Runs Helm to create manifest files
-    - name: Bake deployment
+    - name: App_insights_docker deployment
       uses: azure/k8s-bake@v2
       with:
         renderEngine: "helm"
         helmChart: ${{ env.CHART_PATH }}
-        overrideFiles: ${{ env.CHART_OVERRIDE_PATH }}
-        overrides: |
-          replicas:2
+        # overrideFiles: ${{ env.CHART_OVERRIDE_PATH }}
+        # overrides: |
+        #   replicas:2
         helm-version: "latest"
       id: bake
 
