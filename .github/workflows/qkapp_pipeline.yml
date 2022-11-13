@@ -14,7 +14,7 @@ env:
   PROJECT_NAME: qkinsightsdemo              # set this to your project's name
   RESOURCE_GROUP: App_insights_AKS_ck          # set this to the resource group containing your AKS cluster
   CLUSTER_NAME: appinsightsaks              # set this to the name of your AKS cluster
-  REGISTRY_URL: ecrinsights.azurecr.io              # set this to the URL of your registry
+  ACR_REGISTRY_URL: ecrinsights.azurecr.io              # set this to the URL of your registry
   CHART_PATH: "./sampleapp"
   CHART_OVERRIDE_PATH: "./sampleapp/values.yml"
 #   # If you bake using helm:
@@ -68,11 +68,7 @@ jobs:
 
       # Retrieves your Azure Kubernetes Service cluster's kubeconfig file
 
-    - name: Get K8s context
-      uses: azure/aks-set-context@v3
-      with:
-        resource-group: ${{ env.RESOURCE_GROUP }}
-        cluster-name: ${{ env.CLUSTER_NAME }}
+
 
     # - name: Group of log lines
     #   run: |
@@ -85,7 +81,34 @@ jobs:
       # Runs Helm to create manifest files
     - name: github checkout
       uses: actions/checkout@v3
+    
+    - uses: Azure/docker-login@v1
+      with:
+        login-server: ${{ env.ACR_REGISTRY_URL }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
 
+    - name: Build and push image to ACR
+      run: |
+          docker build . -t ${{ env.ACR_REGISTRY_URL }}/qkappdemo:${{ github.sha }}
+          docker push ${{ env.ACR_REGISTRY_URL }}/qkappdemo:${{ github.sha }}
+
+      #  - uses: Azure/k8s-set-context@v1
+      #    with:
+      #       kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      #  - uses: Azure/k8s-create-secret@v1
+      #    with:
+      #       container-registry-url: contoso.azurecr.io
+      #       container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+      #       container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+      #       secret-name: demo-k8s-secret
+
+    - name: Get K8s context
+      uses: azure/aks-set-context@v3
+      with:
+        resource-group: ${{ env.RESOURCE_GROUP }}
+        cluster-name: ${{ env.CLUSTER_NAME }}
 
     - name: Lint Check
       run: helm lint ./sampleapp
@@ -105,9 +128,9 @@ jobs:
       with:
         renderEngine: "helm"
         helmChart: ${{ env.CHART_PATH }}
-        # overrideFiles: ${{ env.CHART_OVERRIDE_PATH }}
-        # overrides: |
-        #   replicas:2
+        overrideFiles: ${{ env.CHART_OVERRIDE_PATH }}
+        overrides: |
+          replicas:2
         helm-version: "latest"
       id: bake
 
