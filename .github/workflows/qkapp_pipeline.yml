@@ -45,7 +45,7 @@ on:
 #         with:
 #           creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
 jobs: 
-  build-and-deploy:
+  login:
     runs-on: ubuntu-latest
     steps:
     # - name: 'Az CLI login'
@@ -77,7 +77,10 @@ jobs:
     # - name: Group of log lines
     #   run: |
     #       ll
-
+  build-Application:
+    needs: login
+    runs-on: ubuntu-latest
+    steps:
       # Runs Helm to create manifest files
     - name: App_insights_docker deployment
       uses: azure/k8s-bake@v2
@@ -90,7 +93,10 @@ jobs:
         helm-version: "latest"
       id: bake
 
-
+  Deploy-Application:
+    needs: [login, build-Application]
+    runs-on: ubuntu-latest
+    steps:
     # # Deploys application based on manifest files from previous step
     # - name: Deploy application
     #   uses: Azure/k8s-deploy@v4
