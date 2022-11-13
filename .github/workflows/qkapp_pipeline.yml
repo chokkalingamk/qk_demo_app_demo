@@ -9,15 +9,15 @@
 
 name: Build and deploy to Azure Kubernetes Service
 
-env:
-  AZURE_CONTAINER_REGISTRY: MY_REGISTRY_NAME # set this to the name of your container registry
-  PROJECT_NAME: MY_PROJECT_NAME              # set this to your project's name
-  RESOURCE_GROUP: MY_RESOURCE_GROUP          # set this to the resource group containing your AKS cluster
-  CLUSTER_NAME: MY_CLUSTER_NAME              # set this to the name of your AKS cluster
-  REGISTRY_URL: MY_REGISTRY_URL              # set this to the URL of your registry
-  # If you bake using helm:
-  CHART_PATH: MY_HELM_FILE                   # set this to the path to your helm file
-  CHART_OVERRIDE_PATH: MY_OVERRIDE_FILES     # set this to an array of override file paths
+# env:
+#   AZURE_CONTAINER_REGISTRY: MY_REGISTRY_NAME # set this to the name of your container registry
+#   PROJECT_NAME: MY_PROJECT_NAME              # set this to your project's name
+#   RESOURCE_GROUP: MY_RESOURCE_GROUP          # set this to the resource group containing your AKS cluster
+#   CLUSTER_NAME: MY_CLUSTER_NAME              # set this to the name of your AKS cluster
+#   REGISTRY_URL: MY_REGISTRY_URL              # set this to the URL of your registry
+#   # If you bake using helm:
+#   CHART_PATH: MY_HELM_FILE                   # set this to the path to your helm file
+#   CHART_OVERRIDE_PATH: MY_OVERRIDE_FILES     # set this to an array of override file paths
 
 on: [push]
 
