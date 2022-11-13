@@ -4,7 +4,7 @@
 fullnameOverride: sampleapp
 replicaCount: 2
 image:
-  repository: httpd
+  repository: ecrinsights.azurecr.io/qkappdemo
   tag: latest
 
 imagePullSecrets: []
@@ -22,7 +22,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: addon-http-application-routing
   path: /
-  hostname: VALUE_TO_BE_OVERRIDDEN
+  hostname: testcicdapp.techgigcloud.com
 
 secrets: {}
   # Optionally specify a set of secret objects whose values
