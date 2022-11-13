@@ -27,10 +27,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Azure Login
-      uses: azure/login@89d153571fe9a34ed70fcf9f1d95ab8debea7a73
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    # - name: Azure Login
+    #   uses: azure/login@89d153571fe9a34ed70fcf9f1d95ab8debea7a73
+    #   with:
+    #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - uses: Azure/login@v1
+        with:
+          creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
 
     # - name: Build image on ACR
     #   uses: azure/CLI@7378ce2ca3c38b4b063feb7a4cbe384fef978055
