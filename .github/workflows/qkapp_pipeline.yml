@@ -73,9 +73,9 @@ jobs:
         resource-group: ${{ env.RESOURCE_GROUP }}
         cluster-name: ${{ env.CLUSTER_NAME }}
 
-    - name: Group of log lines
-      run: |
-          ll
+    # - name: Group of log lines
+    #   run: |
+    #       ll
 
       # Runs Helm to create manifest files
     - name: Bake deployment
