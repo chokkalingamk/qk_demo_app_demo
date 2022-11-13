@@ -15,8 +15,8 @@ env:
   RESOURCE_GROUP: App_insights_AKS_ck          # set this to the resource group containing your AKS cluster
   CLUSTER_NAME: appinsightsaks              # set this to the name of your AKS cluster
   REGISTRY_URL: ecrinsights.azurecr.io              # set this to the URL of your registry
-  CHART_PATH: "sampleapp"
-  CHART_OVERRIDE_PATH: "sampleapp/values.yml"
+  CHART_PATH: "./sampleapp"
+  CHART_OVERRIDE_PATH: "./sampleapp/values.yml"
 #   # If you bake using helm:
 #   CHART_PATH: MY_HELM_FILE                   # set this to the path to your helm file
 #   CHART_OVERRIDE_PATH: MY_OVERRIDE_FILES     # set this to an array of override file paths
