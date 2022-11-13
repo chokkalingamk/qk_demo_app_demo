@@ -78,6 +78,7 @@ jobs:
     #   run: |
     #       ll
   build-Application:
+    if: ${{ always() }}
     needs: login
     runs-on: ubuntu-latest
     steps:
@@ -94,6 +95,7 @@ jobs:
       id: bake
 
   Deploy-Application:
+    if: ${{ always() }}
     needs: [login, build-Application]
     runs-on: ubuntu-latest
     steps:
