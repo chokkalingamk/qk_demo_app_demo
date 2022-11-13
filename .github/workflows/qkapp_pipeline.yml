@@ -83,6 +83,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Runs Helm to create manifest files
+    - uses: actions/checkout@v1
+    - name: Lint Helm
+      uses: WyriHaximus/github-action-helm3@v2
+      with:
+        exec: helm lint ./.helm/sampleapp/
     - name: App_insights_docker deployment
       uses: azure/k8s-bake@v2
       with:
