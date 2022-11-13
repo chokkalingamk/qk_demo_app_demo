@@ -9,12 +9,12 @@
 
 name: Build and deploy to Azure Kubernetes Service
 
-# env:
-#   AZURE_CONTAINER_REGISTRY: MY_REGISTRY_NAME # set this to the name of your container registry
-#   PROJECT_NAME: MY_PROJECT_NAME              # set this to your project's name
-#   RESOURCE_GROUP: MY_RESOURCE_GROUP          # set this to the resource group containing your AKS cluster
-#   CLUSTER_NAME: MY_CLUSTER_NAME              # set this to the name of your AKS cluster
-#   REGISTRY_URL: MY_REGISTRY_URL              # set this to the URL of your registry
+env:
+  AZURE_CONTAINER_REGISTRY: ecrinsights # set this to the name of your container registry
+  PROJECT_NAME: qkinsightsdemo              # set this to your project's name
+  RESOURCE_GROUP: App_insights_AKS_ck          # set this to the resource group containing your AKS cluster
+  CLUSTER_NAME: appinsightsaks              # set this to the name of your AKS cluster
+  REGISTRY_URL: ecrinsights.azurecr.io              # set this to the URL of your registry
 #   # If you bake using helm:
 #   CHART_PATH: MY_HELM_FILE                   # set this to the path to your helm file
 #   CHART_OVERRIDE_PATH: MY_OVERRIDE_FILES     # set this to an array of override file paths
@@ -57,18 +57,18 @@ jobs:
       with:
         creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
 
-    - name: 'Run Azure CLI commands'
-      run: |
-          az account show
-          az group list
-          pwd 
-    # - name: Build image on ACR
-    #   uses: azure/CLI@7378ce2ca3c38b4b063feb7a4cbe384fef978055
-    #   with:
-    #     azcliversion: 2.29.1
-    #     inlineScript: |
-    #       az configure --defaults acr=${{ env.AZURE_CONTAINER_REGISTRY }}
-    #       az acr build -t  -t ${{ env.REGISTRY_URL }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
+    # - name: 'Run Azure CLI commands'
+    #   run: |
+    #       az account show
+    #       az group list
+    #       pwd 
+    - name: Build image on ACR
+      uses: azure/CLI@7378ce2ca3c38b4b063feb7a4cbe384fef978055
+      with:
+        azcliversion: 2.29.1
+        inlineScript: |
+          az configure --defaults acr=${{ env.AZURE_CONTAINER_REGISTRY }}
+          az acr build -t  -t ${{ env.REGISTRY_URL }}/${{ env.PROJECT_NAME }}:${{ github.sha }}
     
     # - name: Gets K8s context
     #   uses: azure/aks-set-context@4e5aec273183a197b181314721843e047123d9fa
