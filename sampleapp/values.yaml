@@ -4,7 +4,7 @@
 fullnameOverride: sampleapp
 replicaCount: 2
 image:
-  repository: VALUE_TO_BE_OVERRIDDEN
+  repository: httpd
   tag: latest
 
 imagePullSecrets: []

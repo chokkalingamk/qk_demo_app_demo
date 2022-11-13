@@ -83,7 +83,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Runs Helm to create manifest files
-    - uses: actions/checkout@v1
+    - name: github checkout
+      uses: actions/checkout@v3
+
     - name: Lint Helm
       uses: WyriHaximus/github-action-helm3@v2
       with:
