@@ -91,10 +91,9 @@ jobs:
 
     - name: Build and push image to ACR
       run: |
-          docker build . -t ${{ env.ACR_REGISTRY_URL }}/qkappdemo:${{ github.sha }}
-          docker tag ${{ env.ACR_REGISTRY_URL }}/qkappdemo:${{ github.sha }} ${{ env.ACR_REGISTRY_URL }}/qkappdemo:latest
-          docker push ${{ env.ACR_REGISTRY_URL }}/qkappdemo:${{ github.sha }}
-          docker push ${{ env.ACR_REGISTRY_URL }}/qkappdemo:latest
+          docker build . -t ${{ env.ACR_REGISTRY_URL }}/qkappdemo:${{ github.sha }} -t ${{ env.ACR_REGISTRY_URL }}/qkappdemo:latest
+          #docker push ${{ env.ACR_REGISTRY_URL }}/qkappdemo:${{ github.sha }}
+          docker push ${{ env.ACR_REGISTRY_URL }}/qkappdemo --all-tags
 
       #  - uses: Azure/k8s-set-context@v1
       #    with:
@@ -105,15 +104,6 @@ jobs:
       with:
         resource-group: ${{ env.RESOURCE_GROUP }}
         cluster-name: ${{ env.CLUSTER_NAME }}
-
-    - name: Set imagePullSecret
-      uses: azure/k8s-create-secret@v4
-      with:
-        container-registry-url: ${{ env.ACR_REGISTRY_URL }}
-        container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
-        container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-        secret-name: 'qkappdemo-secret'
-      id: create-secret
 
     - name: Lint Check
       run: helm lint ./sampleapp
@@ -127,6 +117,17 @@ jobs:
     #   with:
     #     command: lint
         # config: ct.yaml
+    - name: delete old secret
+      run: kubectl delete secret qkappdemo-secret
+
+    - name: Set imagePullSecret
+      uses: azure/k8s-create-secret@v4
+      with:
+        container-registry-url: ${{ env.ACR_REGISTRY_URL }}
+        container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+        container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+        secret-name: 'qkappdemo-secret'
+      id: create-secret
 
     - name: App_insights_docker deployment
       uses: azure/k8s-bake@v2
