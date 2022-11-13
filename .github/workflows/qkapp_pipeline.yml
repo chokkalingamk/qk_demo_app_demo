@@ -86,10 +86,20 @@ jobs:
     - name: github checkout
       uses: actions/checkout@v3
 
-    - name: Lint Helm
-      uses: WyriHaximus/github-action-helm3@v2
-      with:
-        exec: helm lint ./.helm/sampleapp/
+
+    - name: Lint Check
+      run: helm lint ./sampleapp
+    # - name: Lint Helm
+    #   uses: WyriHaximus/github-action-helm3@v2
+    #   with:
+    #     exec: helm lint ./.helm/sampleapp/
+
+    # - name: Lint Helm charts
+    #   uses: helm/chart-testing-action@v1.0.0
+    #   with:
+    #     command: lint
+        config: ct.yaml
+
     - name: App_insights_docker deployment
       uses: azure/k8s-bake@v2
       with:
