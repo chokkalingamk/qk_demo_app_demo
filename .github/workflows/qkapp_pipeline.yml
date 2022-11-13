@@ -94,11 +94,11 @@ jobs:
         helm-version: "latest"
       id: bake
 
-  Deploy-Application:
-    if: ${{ always() }}
-    needs: [login, build-Application]
-    runs-on: ubuntu-latest
-    steps:
+  # Deploy-Application:
+  #   if: ${{ always() }}
+  #   needs: [login, build-Application]
+  #   runs-on: ubuntu-latest
+  #   steps:
     # # Deploys application based on manifest files from previous step
     # - name: Deploy application
     #   uses: Azure/k8s-deploy@v4
