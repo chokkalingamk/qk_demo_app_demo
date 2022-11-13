@@ -68,6 +68,8 @@ jobs:
 
       # Retrieves your Azure Kubernetes Service cluster's kubeconfig file
   K8s-context:
+    runs-on: ubuntu-latest
+    steps:
     - name: Get K8s context
       uses: azure/aks-set-context@v3
       with:
@@ -78,6 +80,8 @@ jobs:
     #   run: |
     #       ll
   helm_deploy:
+    runs-on: ubuntu-latest
+    steps:
       # Runs Helm to create manifest files
     - name: Bake deployment
       uses: azure/k8s-bake@v2
