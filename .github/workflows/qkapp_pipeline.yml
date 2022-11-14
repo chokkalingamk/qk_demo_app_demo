@@ -117,8 +117,8 @@ jobs:
     #   with:
     #     command: lint
         # config: ct.yaml
-    - name: delete old secret
-      run: kubectl delete secret qkappdemo-secret
+    # - name: delete old secret
+    #   run: kubectl delete secret qkappdemo-secret
 
     - name: Set imagePullSecret
       uses: azure/k8s-create-secret@v4
