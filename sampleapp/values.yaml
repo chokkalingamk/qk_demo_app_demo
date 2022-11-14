@@ -2,7 +2,7 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 fullnameOverride: sampleapp
-replicaCount: 2
+replicaCount: 1
 image:
   repository: ecrinsights.azurecr.io/qkappdemo
   tag: latest
@@ -18,7 +18,7 @@ service:
   port: 8080
 
 ingress:
-  enabled: false
+  enabled: true
   annotations:
     kubernetes.io/ingress.class: addon-http-application-routing
   path: /
