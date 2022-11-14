@@ -127,7 +127,7 @@ jobs:
         container-registry-username: ${{ secrets.REGISTRY_USERNAME }}
         container-registry-password: ${{ secrets.REGISTRY_PASSWORD }}
         secret-name: 'qkappdemo-secret'
-      id: create-secret
+      # id: create-secret
 
     - name: App_insights_docker deployment
       uses: azure/k8s-bake@v2
@@ -138,7 +138,7 @@ jobs:
         overrides: |
           replicas:2
         helm-version: "latest"
-      id: bake
+      # id: bake
 
   # Deploy-Application:
   #   if: ${{ always() }}
