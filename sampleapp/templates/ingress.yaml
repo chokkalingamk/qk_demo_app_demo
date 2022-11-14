@@ -35,5 +35,6 @@ spec:
               service:
                 name: {{ $serviceName }}
                 port:
-                  number: {{ $servicePort }} 
+                  number: {{ $servicePort }}
+            pathType: Prefix
 {{- end }}
